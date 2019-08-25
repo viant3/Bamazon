@@ -24,7 +24,7 @@ function showItems() {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
       console.log(" ");
-      console.log("ID: " + res[i].id + "     " + "Product Name: " + res[i].product_name + "     " + "Price: " + res[i].price);
+      console.log("ID: " + res[i].id + "     " + "Product Name: " + res[i].product_name + "     " + "Unit Price: " + res[i].price.toFixed(2));
       console.log("________________________________________________________");
     }
  
@@ -37,7 +37,7 @@ function showItems() {
   {
     name: "quantity",
     type: "input",
-    message: "Please enter the quantity you wish to purchase",
+    message: "\nPlease enter the quantity you wish to purchase",
 
   }]).then(function (transaction) {
 
@@ -56,10 +56,10 @@ function showItems() {
 
           console.log("Item: " + res[i].product_name);
           console.log("Department: " + res[i].department_name);
-          console.log("Price: " + res[i].price);
+          console.log("Price: " + res[i].price.toFixed(2));
           console.log("Quantity: " + transaction.quantity);
           console.log("----------------");
-          console.log("Total: " + res[i].price * transaction.quantity);
+          console.log("You owe: " + parseFloat(res[i].price * transaction.quantity).toFixed(2));
 connection.end();
 
       
