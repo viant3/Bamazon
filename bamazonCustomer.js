@@ -37,7 +37,7 @@ function showItems() {
   {
     name: "quantity",
     type: "input",
-    message: "Please enter the quantity you wish to purchase.",
+    message: "Please enter the quantity you wish to purchase",
 
   }]).then(function (transaction) {
 
