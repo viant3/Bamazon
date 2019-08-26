@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 });
 
 
-connection.connect(function (err) {
+connection.connect(function(err) {
   if (err) throw err;
   //start the show!
   showItems();
@@ -27,47 +27,57 @@ function showItems() {
       console.log("ID: " + res[i].id + "     " + "Product Name: " + res[i].product_name + "     " + "Unit Price: " + res[i].price.toFixed(2));
       console.log("________________________________________________________");
     }
- 
-  inquirer.prompt([{
 
-    name: "ID",
-    type: "input",
-    message: "\nWhat is the ID number of the product you would like to buy?",
-  },
-  {
-    name: "quantity",
-    type: "input",
-    message: "\nPlease enter the quantity you wish to purchase",
+    inquirer.prompt([{
 
-  }]).then(function (transaction) {
+      name: "ID",
+      type: "input",
+      message: "\nWhat is the ID number of the product you would like to buy?",
+    },
+    {
+      name: "quantity",
+      type: "input",
+      message: "\nPlease enter the quantity you wish to purchase",
 
-    // connect to bamazon_db to check quantity - prompt if qty is too low for transaction - or perform transaction
+    }]).then(function (transaction) {
 
-    connection.query("SELECT * FROM products WHERE id=?", transaction.ID, function (err, res) {
-      if (err) throw err;
-      for (var i = 0; i < res.length; i++) {
+      // connect to bamazon_db to check quantity - prompt if qty is too low for transaction - or perform transaction
 
-        if (transaction.quantity > res[i].stock_quantity) {
-          console.log("\n*****  !  *****")
-          console.log("Inventory quantity is too low to fufill your order. Please try again");
-          showItems();
+      connection.query("SELECT * FROM products WHERE id=?", transaction.ID, function (err, res) {
+        if (err) throw err;
 
-        } else {
+        for (var i = 0; i < res.length; i++) {
 
-          console.log("Item: " + res[i].product_name);
-          console.log("Department: " + res[i].department_name);
-          console.log("Price: " + res[i].price.toFixed(2));
-          console.log("Quantity: " + transaction.quantity);
-          console.log("----------------");
-          console.log("You owe: " + parseFloat(res[i].price * transaction.quantity).toFixed(2));
-connection.end();
+          if (transaction.quantity > res[i].stock_quantity) {
+            console.log("\n*****  !  *****")
+            console.log("Inventory quantity is too low to fufill your order. Please try again");
+            showItems();
 
+          }
+          else {
+                      
+            console.log("Item: " + res[i].product_name);
+            console.log("Department: " + res[i].department_name);
+            console.log("Price: " + res[i].price.toFixed(2));
+            console.log("Quantity: " + transaction.quantity);
+            console.log("----------------");
+            console.log("You owe: $" + parseFloat(res[i].price * transaction.quantity).toFixed(2))
+
+          
+          }
+          var updateQuantity = res[i].stock_quantity - transaction.quantity;
+          var product = res[i].product_name;
+
+          connection.query("UPDATE products SET stock_quantity=? WHERE id=?", [updateQuantity, transaction.ID], function (err) {
+            if(err) throw err;
+            console.log("There are: " + updateQuantity + " " + product + " left in inventory");
+        });
       
-        }
+        
+        connection.end();
       }
+  
+      });
     });
   });
-});
 }
-
-
