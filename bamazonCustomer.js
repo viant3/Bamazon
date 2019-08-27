@@ -60,7 +60,7 @@ function showItems() {
         if (err) throw err;
         if (res.length === 0) {
           console.log("\n*****  !  *****")
-          console.log("You have entered an invalid product. Please try again");
+          console.log("You have entered an invalid product. Please try again.");
           showItems();
         } else {
           for (var i = 0; i < res.length; i++) {
