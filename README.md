@@ -13,9 +13,7 @@ From the commad line, type
 
        node bamazon.js
        
-This will display items available for sale from the bamazon MySQL databse and a command line prompt asking the user
-to enter the item number of the product to be purchased. Followed by a request for the number of items the user
-wishes to purchase.
+This will display items available for sale from the bamazon MySQL databse and a command line prompt asking the user to enter the item number of the product to be purchased.  A second command line prompt asks the user to enter the quantity of the item they wish to purchase.
 
 ![products from db](/images/1.JPG)
 
