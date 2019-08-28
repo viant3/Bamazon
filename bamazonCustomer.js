@@ -77,7 +77,7 @@ function showItems() {
               console.log("Price: $" + res[i].price.toFixed(2));
               console.log("Quantity: " + transaction.quantity);
               console.log("----------------");
-              console.log("You owe: $" + parseFloat(res[i].price * transaction.quantity).toFixed(2))
+              console.log("You owe: $" + (res[i].price * transaction.quantity).toFixed(2))
 
 
 
